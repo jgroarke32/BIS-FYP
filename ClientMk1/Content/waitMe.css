@@ -13,7 +13,7 @@ body.waitMe_container .waitMe .waitMe_content {top:50%!important;transform:none!
 .waitMe_container .waitMe .waitMe_content.horizontal > .waitMe_text {display:inline-block;margin:0 0 0 20px;vertical-align:top}
 .waitMe_container .waitMe .waitMe_progress {position:relative;font-size:0;line-height:0}
 .waitMe_container .waitMe .waitMe_progress > div {animation-fill-mode:both;display:inline-block;transform:translateZ(0);backface-visibility:hidden}
-.waitMe_container .waitMe .waitMe_text {position:relative;margin:20px 0 0}
+.waitMe_container .waitMe .waitMe_text {position:fixed;margin-top:5%; margin-left:46%;}
 
 /* before load animation */
 body.waitMe_body {overflow:hidden;height:100%}
@@ -204,8 +204,8 @@ body.waitMe_body .waitMe_container.text > div {width:100%;top:45%;text-align:cen
 
 
 /* pulse */
-.waitMe_container .waitMe_progress.pulse {width:30px;height:30px;margin:auto;position:relative}
-.waitMe_container .waitMe_progress.pulse > div {margin:auto;top:0;left:0;right:0;bottom:0;border-width:3px;border-style:solid;border-radius:50%;position:absolute;opacity:0;animation:pulsate 1s infinite ease-out}
+.waitMe_container .waitMe_progress.pulse {width:30px;height:30px;position:fixed;margin-top:1%; margin-left:48%;}
+.waitMe_container .waitMe_progress.pulse > div {margin:auto;top:5%;left:0;right:0;bottom:0;border-width:3px;border-style:solid;border-radius:50%;position:absolute;opacity:0;animation:pulsate 1s infinite ease-out}
 @keyframes pulsate {
 	0% {transform:scale(.1);opacity:0}
 	50% {opacity:1}

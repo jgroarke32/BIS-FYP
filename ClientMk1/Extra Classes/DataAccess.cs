@@ -12,42 +12,51 @@ namespace ClientMk1.Extra_Classes
 {
     public class DataAccess
     {
-        public async Task<MasterSchools> publicreturn(string path)
+        public IndivSecSchool getSecondaryschool(string path)
         {
-            MasterSchools schools = await GetProductAsync(path);
-            return schools;
-        }
-
-
-        async Task<MasterSchools> GetProductAsync(string path)
-        {
-
-            HttpClient client = new HttpClient();
-            MasterSchools product = null;
-            HttpResponseMessage response = await client.GetAsync(path);
-            if (response.IsSuccessStatusCode)
+            using (WebClient webClient = new WebClient() { Encoding = System.Text.Encoding.UTF8 })
             {
-                product = await response.Content.ReadAsAsync<MasterSchools>();
-            }
-            return product;
-        }
-
-
-        public exceldata syncdata(string path)
-        {
-            using (WebClient webClient = new WebClient(){ Encoding = System.Text.Encoding.UTF8 })
-            {              
-                return JsonConvert.DeserializeObject<exceldata>(
+                return JsonConvert.DeserializeObject<IndivSecSchool>(
                     webClient.DownloadString(path)
                 );
             }
         }
 
-        public List<PrimarySchool> syncPrimarySchdata(string path)
+        public IndivPriSchool getPrimaryschool(string path)
         {
             using (WebClient webClient = new WebClient() { Encoding = System.Text.Encoding.UTF8 })
             {
-                return JsonConvert.DeserializeObject<List<PrimarySchool>>(
+                return JsonConvert.DeserializeObject<IndivPriSchool>(
+                    webClient.DownloadString(path)
+                );
+            }
+        }
+
+        public DALdata getallschools(string path)
+        {
+            using (WebClient webClient = new WebClient() { Encoding = System.Text.Encoding.UTF8 })
+            {
+                return JsonConvert.DeserializeObject<DALdata>(
+                    webClient.DownloadString(path)
+                );
+            }
+        }
+
+        public List<PrimarySchoolDAL> getPrischools(string path)
+        {
+            using (WebClient webClient = new WebClient() { Encoding = System.Text.Encoding.UTF8 })
+            {
+                return JsonConvert.DeserializeObject<List<PrimarySchoolDAL>>(
+                    webClient.DownloadString(path)
+                );
+            }
+        }
+
+        public DALdata syncSecondarySchdata(string path) //get all data from api;
+        {
+            using (WebClient webClient = new WebClient(){ Encoding = System.Text.Encoding.UTF8 })
+            {              
+                return JsonConvert.DeserializeObject<DALdata>(
                     webClient.DownloadString(path)
                 );
             }

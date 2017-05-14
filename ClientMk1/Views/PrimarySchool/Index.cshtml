@@ -1,19 +1,22 @@
-﻿@model ClientMk1.Models.SecondaryListModel
-
+﻿@model ClientMk1.Models.PrimaryListModel
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Test</title>
+    <title>Primary</title>
     <meta name="viewport" content="width=device-width" />
     <link type="text/css" rel="stylesheet" href="~/Content/Site.css" />
     <link type="text/css" rel="stylesheet" href="~/Content/bootstrap.css" />
     <link type="text/css" rel="stylesheet" href="~/Content/waitMe.css" />
     <script type="text/javascript" src="/Scripts/jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.tablesorter.min.js"></script>
     <script type='text/javascript' src="~/Scripts/knockout-3.4.0.js"></script>
-    <script type="text/javascript" src="~/Scripts/ko.js"></script>
+    <script src="~/Scripts/knockout-mapping.js"></script>
+    <script type="text/javascript" src="~/Scripts/PrimaryKO.js"></script>
     <script src="~/Scripts/waitMe.js"></script>
     <script type="text/javascript" src="~/Scripts/bootstrap.js"></script>
     <script type="text/javascript" src="~/Scripts/hashing.js"></script>
+
+    @*<script type="text/javascript" src="~/Scripts/ko.simpleGrid.js"></script>*@
 
     <style>
         @* /* From http://projects.lukehaas.me/css-loaders/ */
@@ -61,6 +64,18 @@
         }
 
         *@
+    </style>
+    <style>
+        .input[type=text] {
+            width: 130px;
+            -webkit-transition: width 0.4s ease-in-out;
+            transition: width 0.4s ease-in-out;
+        }
+
+        /* When the input field gets focus, change its width to 100% */
+        input[type=text]:focus {
+            width: 80%;
+        }
     </style>
 
     <style>
@@ -159,7 +174,9 @@
 
 </head>
 <body>
+
     <div id="body" style="padding-top:50px">
+        @*<input type="search" id="search" placeholder="Search.." data-bind='value: $root.searchValue, valueUpdate: "afterkeydown"'> @*change type to text for animation*@
         <!-- ko if: false -->
         <span class="loader"><span class="loader-inner"></span></span>
         <!-- /ko -->
@@ -167,7 +184,7 @@
             <div style="width:100%">
 
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#filterModal"><span class="glyphicon glyphicon-filter"> Filter</span></button>
-                <ul data-bind="foreach: filter.filters" style="float:right; margin-right:5%; margin-top:5%">
+                <ul data-bind="foreach: filter.filters">
                     <li class="betterwork" data-bind="if: Type == 'text'">
 
                         <input type="text" data-bind="value: Value, valueUpdate: 'afterkeydown', attr: {placeholder: Name}" />
@@ -188,7 +205,7 @@
                         <a href="#" data-bind="click: pager.movePrevious, enable: pager.currentPageIndex()> 0">Previous</a>
                     </li>
                     <li>
-                        <span data-bind="text: pager.Displayrecordsstring"></span>
+                        <span data-bind="text: pager.Displayrecordsstring" @*style="width:241px"*@></span>
                     </li>
                     <li data-bind="css: { disabled: pager.currentPageIndex() === pager.maxPageIndex() }">
                         <a href="#" data-bind="click: pager.moveNext, enable: pager.currentPageIndex() < pager.maxPageIndex()">Next</a>
@@ -211,31 +228,31 @@
                         </tr>
                     </thead>
                     <tbody data-bind="foreach: pager.currentPageRecords">
-                        <tr class="Sectablerows" data-bind="click: $root.showschool">
+                        <tr class="Sectablerows" data-bind="click: $root.showModal">
                             <td class="tabledata">
                                 <span data-bind="text: Name" class="valuesspan"></span><br />
-                                <span data-bind="text: Address1" class="addressspan"></span>
-                                <span data-bind="text: Address2" class="addressspan"></span>
-                                <span data-bind="text: Address3" class="addressspan"></span>
-                                <span data-bind="text: Address4" class="addressspan"></span>
+                                <span data-bind="text: Address" class="addressspan"></span>
                             </td>
                             <td class="tabledata">
                                 <span data-bind="text: County" class="valuesspan"></span>
                             </td>
                             <td class="tabledata">
-                                <span data-bind="text: Gender" class="valuesspan"></span>
-                            </td>
-                            <td class="tabledata">
                                 <span data-bind="text: Irish" class="valuesspan"></span>
-                            </td>
-                            <td class="tabledata">
-                                <span data-bind="text: Fees" class="valuesspan"></span>
                             </td>
                             <td class="tabledata">
                                 <span data-bind="text: Religion" class="valuesspan"></span>
                             </td>
                             <td class="tabledata">
-                                <span data-bind="text: Size" class="valuesspan"></span>
+                                <span data-bind="text: DEIS" class="valuesspan"></span>
+                            </td>
+                            <td class="tabledata">
+                                <span data-bind="text: Boys" class="valuesspan"></span>
+                            </td>
+                            <td class="tabledata">
+                                <span data-bind="text: Girls" class="valuesspan"></span>
+                            </td>
+                            <td class="tabledata">
+                                <span data-bind="text: Total" class="valuesspan"></span>
                             </td>
                         </tr>
                     </tbody>
@@ -274,6 +291,7 @@
         <!-- FilterModal -->
         <div id="filterModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
+
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
@@ -287,13 +305,14 @@
                                 <span data-bind="text: Name"></span>
                                 <select class="form-control" data-bind="options: Options, optionsText: $data, value: CurrentOption"></select>
                             </li>
-                        </ul>                       
+                        </ul>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-default" id="clearbtn" data-bind="click: $root.filter.clearfilters"><span class="glyphicon glyphicon-remove-sign">Clear</span></button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -302,7 +321,7 @@
 </body>
 </html>
 <script>
-    // When the user scrolls down 20px from the top of the document, show the scroll up button
+    // When the user scrolls down 20px from the top of the document, show the button
     window.onscroll = function() {scrollFunction()};
 
     function scrollFunction() {
@@ -316,5 +335,5 @@
 </script>
 <script>
     var JSONsource =  @Html.Raw(Json.Encode(Model));
-    ko.applyBindings(new PageModel(JSONsource)); ///create knockout Viewmodel .... i.e. MVVM
+    ko.applyBindings(new PageModel(JSONsource));
 </script>

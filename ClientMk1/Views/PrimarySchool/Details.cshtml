@@ -1,0 +1,244 @@
+﻿@model ClientMk1.Models.IndivPriSchool
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link type="text/css" rel="stylesheet" href="~/Content/Site.css" />
+    <link type="text/css" rel="stylesheet" href="~/Content/bootstrap.css" />
+    <script type="text/javascript" src="~/Scripts/jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type='text/javascript' src="~/Scripts/knockout-3.4.0.js"></script>
+    <script type="text/javascript" src="/Scripts/gmaps.js"></script>
+    
+    <meta name="viewport" content="width=device-width" />
+    <title>@Model.Name</title>
+    <style>
+        #map {
+            height: 350px;
+            width: 50%;
+        }
+
+    </style>
+    <style>
+        /*.charts {
+            width: 80%;
+            height: 35%;
+
+
+            margin: auto;
+            margin-top: 50px;
+            background: #CFC3F8;
+            box-shadow: 10px 10px 5px #888888;
+        }*/
+     
+        .pieChartDiv {
+            padding: 0;
+            float: left;
+            width: 100%;
+            min-height: 400px;
+            border: 1px solid white;
+        }
+
+        .lineChartDiv {
+            float: left;
+            width: 100%;
+            min-height: 400px;
+            border: 1px solid white;
+        }
+
+        .infoform {
+            width: 50%;
+            height: 350px;
+            float: left;
+            border: 1px solid blue;
+        }
+
+        @@media screen and (max-width: 767px) {
+            .infoform {
+                width: 100%;
+            }
+
+            #map {
+                width: 100%;
+            }
+
+            .pieChartDiv {
+                width: inherit;
+            }
+
+            .lineChartDiv {
+                width: inherit;
+                /*overflow: scroll;*/
+            }
+            html {
+            width: 600px;
+        }
+        }
+    </style>
+</head>
+<body style="width:80%; margin-left:10%; padding-top:50px">
+
+    <!-- Replace the value of the key parameter with your own API key. -->
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvIWVTpJmbCdIfhxfe31Z3w3iXkvR-JG8&callback=initMap">
+    </script>
+    <div class="row">
+        <div class="col infoform">
+            <h1 class="display-field" id="schname">
+                @Html.DisplayFor(model => model.Name)
+            </h1>
+
+            <span class="display-label">
+                @Html.DisplayNameFor(model => model.RollNo):
+            </span>
+            <span class="display-field" id="rollno">
+                @Html.DisplayFor(model => model.RollNo)
+            </span>
+            <br />
+            <span class="display-label">
+                Address:
+            </span>
+            <span class="display-field" id="schaddress">
+                @Html.DisplayFor(model => model.Address)
+            </span>
+            <br />
+            <span class="display-label">
+                @Html.DisplayNameFor(model => model.County):
+            </span>
+            <span class="display-field">
+                @Html.DisplayFor(model => model.County)
+            </span>
+            <br />
+            <span class="display-label">
+                @Html.DisplayNameFor(model => model.DEIS):
+            </span>
+            <span class="display-field">
+                @Html.DisplayFor(model => model.DEIS)
+            </span>
+            <br />
+            <span class="display-label">
+                @Html.DisplayNameFor(model => model.Phone):
+            </span>
+            <span class="display-field">
+                @Html.DisplayFor(model => model.Phone)
+            </span>
+            <br />
+            <span class="display-label">
+                @Html.DisplayNameFor(model => model.Email):
+            </span>
+            <span class="display-field">
+                @Html.DisplayFor(model => model.Email)
+            </span>
+            <br />
+            <span class="display-label">
+                @Html.DisplayNameFor(model => model.Irish):
+            </span>
+            <span class="display-field">
+                @Html.DisplayFor(model => model.Irish)
+            </span>
+            <br />
+            <span class="display-label">
+                @Html.DisplayNameFor(model => model.Religion):
+            </span>
+            <span class="display-field">
+                @Html.DisplayFor(model => model.Religion)
+            </span>
+            <br />
+            <span class="display-label">
+                Girls:
+            </span>
+            <span class="display-field" id="girls2016">
+                @Html.DisplayFor(model => model.TotalGirls)
+            </span>
+
+            <span class="display-label">
+                Boys:
+            </span>
+            <span class="display-field" id="boys2016">
+                @Html.DisplayFor(model => model.TotalBoys)
+            </span>
+            <span class="display-label">
+                Total:
+            </span>
+            <span class="display-field" id="boys2016">
+                @Html.DisplayFor(model => model.Total)
+            </span>
+            <br />
+            <span class="display-label">
+                @Html.DisplayNameFor(model => model.Email):
+            </span>
+            <span class="display-field">
+                @Html.DisplayFor(model => model.Email)
+            </span>
+            <br />
+            <span class="display-field" id="schlat" style="visibility:hidden">
+                @Html.DisplayFor(model => model.lat)
+            </span>
+            <span class="display-field" id="schlon" style="visibility:hidden">
+                @Html.DisplayFor(model => model.lon)
+            </span>
+            <span class="display-field" id="boys2015" style="visibility:hidden">
+                @Html.DisplayFor(model => model.data2015.boys)
+            </span>
+            <span class="display-field" id="girls2015" style="visibility:hidden">
+                @Html.DisplayFor(model => model.data2015.girls)
+            </span>
+            <span class="display-field" id="boys2014" style="visibility:hidden">
+                @Html.DisplayFor(model => model.data2014.boys)
+            </span>
+            <span class="display-field" id="girls2014" style="visibility:hidden">
+                @Html.DisplayFor(model => model.data2014.girls)
+            </span>
+            <span class="display-field" id="boys2013" style="visibility:hidden">
+                @Html.DisplayFor(model => model.data2013.boys)
+            </span>
+            <span class="display-field" id="girls2013" style="visibility:hidden">
+                @Html.DisplayFor(model => model.data2013.girls)
+            </span>
+            <span class="display-field" id="boys2012" style="visibility:hidden">
+                @Html.DisplayFor(model => model.data2012.boys)
+            </span>
+            <span class="display-field" id="girls2012" style="visibility:hidden">
+                @Html.DisplayFor(model => model.data2012.girls)
+            </span>
+            <span class="display-field" id="boys2011" style="visibility:hidden">
+                @Html.DisplayFor(model => model.data2011.boys)
+            </span>
+            <span class="display-field" id="girls2011" style="visibility:hidden">
+                @Html.DisplayFor(model => model.data2011.girls)
+            </span>
+
+            <a href="http://www.education.ie/en/find-a-school/School-Detail/?roll=@Html.DisplayFor(model => model.RollNo)">More Info</a>
+        </div>
+        <div class="col" id="map"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <hr />
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-md-6">
+            <div class="col pieChartDiv" id="piechart"></div>
+        </div>
+        <div class="col-md-6">
+            <div class="col lineChartDiv " id="chart_div"></div>
+        </div>
+    </div>
+    <p>
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+
+    <center>
+        <div id="loading">
+            @*<img src="http://i.imgur.com/aMz1Qtu.gif" height="100px">
+                <img src="https://media.giphy.com/media/4fLr6kOk9uFrO/giphy.gif" />
+                <img src="https://media.giphy.com/media/cjiYC0tvtBNde/giphy.gif" />*@
+        </div>
+    </center>
+</body>
+</html>
+<script>
+    @*var JSONsource =  @Html.Raw(Json.Encode(Model));
+    ko.applyBindings(new SchoolModel(JSONsource));*@
+</script>

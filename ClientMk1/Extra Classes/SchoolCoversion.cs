@@ -8,14 +8,15 @@ namespace ClientMk1.Extra_Classes
 {
     public class SchoolCoversion
     {
-        public List<School> DALtoschool(List<SchoolDAL> apiSchools)
+        public static List<SecondarySchooltable> DALtoSecSchool(List<SecSchoolDAL> apiSchools)
         {
-            List<School> editedSchools = new List<School>();
-            foreach (SchoolDAL apiSchool in apiSchools)
+            List<SecondarySchooltable> editedSchools = new List<SecondarySchooltable>();
+            foreach (SecSchoolDAL apiSchool in apiSchools)
             {
                 if (apiSchool.Name != "")
                 {
-                    School editedSchool = new School();
+                    SecondarySchooltable editedSchool = new SecondarySchooltable(); //maybe constructor;
+                    editedSchool.RollNo = apiSchool.RollNo;
                     editedSchool.Name = apiSchool.Name;
                     editedSchool.County = apiSchool.County;
                     editedSchool.Gender = apiSchool.Gender;
@@ -30,9 +31,34 @@ namespace ClientMk1.Extra_Classes
                     bool IsgirlSuccess = int.TryParse(apiSchool.Female, out totalgirls);
                     bool IsboySuccess = int.TryParse(apiSchool.Male, out totalboys);
                     int total = totalgirls + totalboys;
-                    editedSchool.TotalEnrolments = total;
+                    editedSchool.Size = total;
 
                     editedSchools.Add(editedSchool);
+                }
+            }
+            return editedSchools;
+        }
+
+        public static List<PrimarySchooltable> DALtoPriSchool(List<PrimarySchoolDAL> apiSchools)
+        {
+            List<PrimarySchooltable> editedSchools = new List<PrimarySchooltable>();
+            foreach (PrimarySchoolDAL apiSchool in apiSchools)
+            {
+                if (apiSchool.Name != "")
+                {
+                    PrimarySchooltable school = new PrimarySchooltable();
+                    school.RollNo = apiSchool.RollNo;
+                    school.Name = apiSchool.Name;
+                    school.Address = apiSchool.Address;
+                    school.County = apiSchool.County;
+                    school.Irish = apiSchool.Irish;
+                    school.Religion = apiSchool.Ethos;
+                    school.DEIS = apiSchool.DEIS;
+                    school.Girls = int.Parse(apiSchool.TotalGirls);
+                    school.Boys = int.Parse(apiSchool.TotalBoys);
+                    school.Total = int.Parse(apiSchool.TotalPupils);
+
+                    editedSchools.Add(school);
                 }
             }
             return editedSchools;
