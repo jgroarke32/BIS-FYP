@@ -289,6 +289,7 @@ function PagerModel(results) {
         if (newIndex < 0
             || newIndex == self.currentPageIndex()
             || newIndex > self.maxPageIndex()) {
+            $('#SchoolTable').waitMe('hide'); ///if page change is impossible i.e. already on last page, then stop;
             return;
         }
 
